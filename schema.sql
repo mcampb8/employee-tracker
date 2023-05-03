@@ -6,18 +6,16 @@ USE work_db;
 
 CREATE TABLE allDepts (
     deptName VARCHAR(255) NOT NULL,
-    dept_id INT AUTO_INCREMENT PRIMARY KEY,
+    dept_id INT AUTO_INCREMENT PRIMARY KEY
 );
-DESCRIBE allDepts;
 
 CREATE TABLE allRoles (
     job_title VARCHAR(255) NOT NULL,
     role_id INT AUTO_INCREMENT PRIMARY KEY,
-    roleDept VARCHAR(255) NOT NULL,
+    roleDept INT NOT NULL,
     salary INT NOT NULL
 );
 
-DESCRIBE allRoles;
 CREATE TABLE allEmployees (
     employee_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
@@ -28,5 +26,4 @@ CREATE TABLE allEmployees (
     manager VARCHAR(255) NOT NULL
 );
 
-DESCRIBE allEmployees;
 
