@@ -83,8 +83,6 @@ function addRole(){
                 value: deptRow.dept_id
             }
         })
-
-        console.log(departments)
      
     inquirer.prompt([{
         type: "input",
@@ -96,22 +94,48 @@ function addRole(){
         name: "department",
         message: "Which Department is this Role in?",
         choices: departments
-    }
+    },{
+        type: "input",
+        name: "salary",
+        message: "What is the Salary for this Role?",
+    },
 ]).then((answer)=>{
         const role = answer.role;
-        db.query('INSERT INTO allRoles (job_title, role_id, roleDept, salary) VALUES (?)', department, function (err, results){
+        const department = answer.department;
+        const salary = answer.salary;
+        db.query('INSERT INTO allRoles (job_title, dept_id, salary) VALUES (?)', [role, department, salary], function (err, results){
             console.table(results);
-            showDepartments();
+            showRoles();
             displayMenu();
          })
     })
 })
-    
 }
-function showDepartments(){
- db.query('SELECT * from allDepts', function (err, results){
-    console.table(results);
-    displayMenu();
- })
+function addEmployee(){
+    db.query('SELECT * from allRoles', function (err, results){
+        const roleList = results.map((role) => {
+            return {
+                name: role.job_title,
+                value: role.role_id
+            }
+        })
+        inquirer.prompt([{
+            type: "input",
+            name: "firstName",
+            message: "What is your First Name?",
+        },
+        {
+            type: "input", 
+            name: "lastName",
+            message: "What is your last name?"
+        },
+        {
+            type: "input",
+            name: "manager",
+            message: "What is your Manager's Name?",
+        },
+    ])
+
+})
 }
 displayMenu();

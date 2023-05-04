@@ -7,16 +7,16 @@ VALUES
 ("English"),
 ("History");
 
-INSERT into allRoles (job_title, roleDept, salary)
+INSERT into allRoles (job_title, dept_id, salary)
 VALUES 
-("Teacher","Education", 50000),
-("Engineer", "Engineering", 150000), 
-("Lawyer", "Law", 200000),
-("Doctor", "Medical", 300000);
+("Statistician",1, 50000),
+("Biologist",2, 150000), 
+("Writer",3, 200000),
+("Historian",4, 300000);
 
-INSERT into allEmployees (first_name, last_name, job_title, department, salary, manager)
+INSERT into allEmployees (first_name, last_name, role_id, manager_id)
 VALUES 
-("Michael", "Campbell", "Trapeze Artist", "Circus", 60000, "Barnum and Bailey" ),
-("Joe", "Rehfuss", "Manatee Expert", "Marine Department", 1, "Manatee Mike" ),
-("Henry", "Weigand", "Geographer", "Maps", 99999, "Phileas Fogg" ),
-("Eli", "Wood", "EDM DJ", "Music", 125000, "Daft Punk" );
+("Michael", "Campbell", 1, 2),
+("Joe", "Rehfuss", 2, NULL),
+("Henry", "Weigand", 3, 2),
+("Eli", "Wood", 4, 2);
