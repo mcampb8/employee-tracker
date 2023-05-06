@@ -38,7 +38,8 @@ function displayMenu(){
     } else if (selection === "Update an employee role"){
         updateEmployeeRole();
     } else if(selection === "Quit"){
-
+        console.log("Goodbye.");
+        process.exit();
     }
 })}
 
@@ -103,7 +104,7 @@ function addRole(){
         const role = answer.role;
         const department = answer.department;
         const salary = answer.salary;
-        db.query('INSERT INTO allRoles (job_title, dept_id, salary) VALUES (?)', [role, department, salary], function (err, results){
+        db.query('INSERT INTO allRoles (job_title, dept_id, salary) VALUES (?,?,?)', [role, department, salary], function (err, results){
             console.table(results);
             showRoles();
             displayMenu();
@@ -119,23 +120,91 @@ function addEmployee(){
                 value: role.role_id
             }
         })
-        inquirer.prompt([{
-            type: "input",
-            name: "firstName",
-            message: "What is your First Name?",
-        },
-        {
-            type: "input", 
-            name: "lastName",
-            message: "What is your last name?"
-        },
-        {
-            type: "input",
-            name: "manager",
-            message: "What is your Manager's Name?",
-        },
-    ])
+        db.query('SELECT * from allEmployees', function (err, results){
+            const employeeList = results.map((employee)=>{
+                return{
+                    name: employee.first_name,
+                    value: employee.employee_id
+                }
+            })
+            inquirer.prompt([{
+                type: "input",
+                name: "firstName",
+                message: "What is your First Name?",
+            },
+            {
+                type: "input", 
+                name: "lastName",
+                message: "What is your Last Name?"
+            },
+            {
+                type: "list",
+                name: "role",
+                message: "What is your role?",
+                choices: roleList
+            },
+            {
+                type: "list",
+                name: "manager",
+                message: "Who is your Manager?",
+                choices: employeeList
+            },
+        ]).then((answer)=>{
+            const employeeFirst = answer.firstName;
+            const employeeLast = answer.lastName;
+            const manager = answer.manager;
+            const role = answer.role;
+            db.query('INSERT INTO allEmployees (first_name, last_name, role_id, manager_id) VALUES (?,?,?,?)', [employeeFirst, employeeLast, role, manager], function (err, results){
+                console.table(results);
+                showEmployees();
+             })
+        })
+         })
+        
+       
 
 })
+}
+
+function updateEmployeeRole(){
+
+    db.query('SELECT * from allRoles', function (err, results){
+        const roleList = results.map((role) => {
+            return {
+                name: role.job_title,
+                value: role.role_id
+            }
+        })
+        db.query('SELECT * from allEmployees', function (err, results){
+            const employeeList = results.map((employee)=>{
+                return{
+                    name: employee.first_name,
+                    value: employee.employee_id
+                }
+            })
+            inquirer.prompt([
+                {
+                    type: "list",
+                    name: "employee",
+                    message: "Which Employee's Role are you Updating?",
+                    choices: employeeList
+                },
+                {
+                type: "list",
+                name: "newRole",
+                message: "What is the Employee's New Role?",
+                choices: roleList
+            }
+        ]).then((answer)=>{
+            const employee = answer.employee;
+            const newRole = answer.newRole;
+
+            db.query("UPDATE allEmployees WHERE role = 'newRole'", function(err,results){
+                console.table(results);
+                showEmployees();
+            })
+        })
+        })
+    })
 }
 displayMenu();
