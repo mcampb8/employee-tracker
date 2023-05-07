@@ -55,6 +55,7 @@ function showEmployees(){
     displayMenu();
  })
 }
+
 function showRoles(){
  db.query('SELECT * from allRoles', function (err, results){
     console.table(results);
@@ -199,7 +200,7 @@ function updateEmployeeRole(){
             const employee = answer.employee;
             const newRole = answer.newRole;
 
-            db.query("UPDATE allEmployees WHERE role = 'newRole'", function(err,results){
+            db.query("UPDATE allEmployees SET role_id = ? WHERE employee_id = ?", [newRole, employee], function(err,results){
                 console.table(results);
                 showEmployees();
             })
