@@ -25,6 +25,9 @@ I worked on this project and used the class repository as a resource. I also had
 [MIT](https://choosealicense.com/licenses/mit/)
 ---
 
+## Walkthrough Video
+[Link](https://drive.google.com/file/d/1S2TckvAmhaQBijoctgvfWsM4cBUhBZx7/view)
+
 ## Questions
 [Email](mailto:michaelicampbell8@gmail.com)
 [Github](https://www.github.com/mcampb8)

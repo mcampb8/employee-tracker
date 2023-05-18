@@ -50,14 +50,14 @@ function showDepartments(){
  })
 }
 function showEmployees(){
- db.query('SELECT * from allEmployees', function (err, results){
+ db.query('SELECT allEmployees.employee_id, allEmployees.first_name, allEmployees.last_name, manager.first_name AS manager, allRoles.job_title, allRoles.salary FROM allEmployees INNER JOIN allRoles ON allEmployees.role_id = allRoles.role_id LEFT JOIN allEmployees manager ON manager.employee_id = allEmployees.manager_id', function (err, results){
     console.table(results);
     displayMenu();
  })
 }
 
 function showRoles(){
- db.query('SELECT * from allRoles', function (err, results){
+ db.query('SELECT * from allRoles INNER JOIN allDepts ON allRoles.dept_id = allDepts.dept_id', function (err, results){
     console.table(results);
     displayMenu();
  })
@@ -72,7 +72,6 @@ function addDepartment(){
         db.query('INSERT INTO allDepts (deptName) VALUES (?)', department, function (err, results){
             console.table(results);
             showDepartments();
-            displayMenu();
          })
     })
     
@@ -108,7 +107,6 @@ function addRole(){
         db.query('INSERT INTO allRoles (job_title, dept_id, salary) VALUES (?,?,?)', [role, department, salary], function (err, results){
             console.table(results);
             showRoles();
-            displayMenu();
          })
     })
 })
